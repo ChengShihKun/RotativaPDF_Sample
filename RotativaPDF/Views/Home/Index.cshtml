@@ -1,0 +1,66 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <meta name="viewport" content="width=device-width" />
+    <script>
+       
+        var GetData = {
+            //"Home/LocalPDFGen"
+                        EvenClick: function (ele,url,type) {
+                            var PText = $(ele).next();
+                            $.ajax({
+                                type: type, url: url,
+                                    complete: function (data) {
+                                        var obj = jQuery.parseJSON(data.responseText)
+                                        PText.text('檔案下載位置:');
+                                        PText.append('<a href="' + obj.Path + '" >請點我</a>')
+                                    },
+                                    beforeSend: function () {
+                                        PText.text('請稍候.......');
+                                    }
+                                });
+                            }
+                
+                      }
+
+ 
+
+    </script>
+    <title>Index</title>
+</head>
+<body>
+    <div>
+      <p> Hello MVC Rotativa </p>
+    </div>
+    <div>
+        <a href="@Url.Action("DownloadPDF", "Home")">透過View產生PDF</a>
+    </div>
+    <div>
+        <a href="@Url.Action("DownloadActionAsPDF", "Home")">透過Action產生PDF</a>
+    </div>
+    <div>
+        <a href="@Url.Action("DownloadPartialViewPDF", "Home")">透過PartialView產生PDF</a>
+    </div>
+    <div>
+        <a href="@Url.Action("UrlAsPDF", "Home")">透過URL網址產生PDF</a>
+    </div>
+    <div>
+        <a href="javascript:;" onclick="GetData.EvenClick(this,'Home/LocalPDFGen','GET');">透過Ajax將PDF產生再SERVER端</a>
+        <p></p>
+    </div>
+    <div>
+        <a href="javascript:;" onclick="GetData.EvenClick(this,'API/GenPDF/RotativaFun','POST');">透過Ajax呼叫API使用Rotativa執行wkhtmltopdf.exe將PDF產生再SERVER端</a>
+        <p></p>
+    </div>
+      <div>
+        <a href="javascript:;" onclick="GetData.EvenClick(this,'API/GenPDF/EXEwkhtmltopdf','POST');">透過Ajax呼叫API直接執行wkhtmltopdf.exe將PDF產生再SERVER端</a>
+        <p></p>
+    </div>
+</body>
+</html>
